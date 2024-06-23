@@ -60,6 +60,7 @@ public class JobThread extends Thread{
      */
 	public ReturnT<String> pushTriggerQueue(TriggerParam triggerParam) {
 		// avoid repeat
+		// 感觉logid进行去重，然后放入队列triggerQueue
 		if (triggerLogIdSet.contains(triggerParam.getLogId())) {
 			logger.info(">>>>>>>>>>> repeate trigger job, logId:{}", triggerParam.getLogId());
 			return new ReturnT<String>(ReturnT.FAIL_CODE, "repeate trigger job, logId:" + triggerParam.getLogId());
@@ -133,6 +134,7 @@ public class JobThread extends Thread{
 					XxlJobHelper.log("<br>----------- xxl-job job execute start -----------<br>----------- Param:" + xxlJobContext.getJobParam());
 
 					if (triggerParam.getExecutorTimeout() > 0) {
+						// 有超时判断
 						// limit timeout
 						Thread futureThread = null;
 						try {
@@ -162,6 +164,7 @@ public class JobThread extends Thread{
 							futureThread.interrupt();
 						}
 					} else {
+						// 无超时，直接执行
 						// just execute
 						handler.execute();
 					}
@@ -176,6 +179,7 @@ public class JobThread extends Thread{
 								:tempHandleMsg;
 						XxlJobContext.getXxlJobContext().setHandleMsg(tempHandleMsg);
 					}
+					// 任务运行完，写本地日志文件
 					XxlJobHelper.log("<br>----------- xxl-job job execute end(finish) -----------<br>----------- Result: handleCode="
 							+ XxlJobContext.getXxlJobContext().getHandleCode()
 							+ ", handleMsg = "

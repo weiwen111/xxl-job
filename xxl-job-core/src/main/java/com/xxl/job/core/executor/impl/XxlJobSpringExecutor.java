@@ -77,6 +77,7 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
         }
     }*/
 
+    // 扫描bean，将包含xxlJob注解的方法registJobHandler
     private void initJobHandlerMethodRepository(ApplicationContext applicationContext) {
         if (applicationContext == null) {
             return;

@@ -55,6 +55,8 @@ public class TriggerCallbackThread {
         }
 
         // callback
+        // 客户端回调，将job执行结果返回给admin；从callBackQueue中一次性获取所有存量，批量通知admin。
+        // 如果失败，将失败列表保存为二进制文件，在triggerRetryCallbackThread中30秒重试一次
         triggerCallbackThread = new Thread(new Runnable() {
 
             @Override
@@ -105,6 +107,7 @@ public class TriggerCallbackThread {
 
 
         // retry
+        // 从二进制文件中获取失败的回调列表进行重试
         triggerRetryCallbackThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -165,6 +168,7 @@ public class TriggerCallbackThread {
         // callback, will retry if error
         for (AdminBiz adminBiz: XxlJobExecutor.getAdminBizList()) {
             try {
+                // 客户端executor调用admin的接口，进行job结果回调，使用的是 AdminBizClient实现
                 ReturnT<String> callbackResult = adminBiz.callback(callbackParamList);
                 if (callbackResult!=null && ReturnT.SUCCESS_CODE == callbackResult.getCode()) {
                     callbackLog(callbackParamList, "<br>----------- xxl-job job callback finish.");

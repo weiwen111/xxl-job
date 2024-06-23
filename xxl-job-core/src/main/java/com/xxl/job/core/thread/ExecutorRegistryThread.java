@@ -66,6 +66,7 @@ public class ExecutorRegistryThread {
                     }
 
                     try {
+                        // 相当于客户端executor定时心跳，向admin进行定时注册，30秒一次
                         if (!toStop) {
                             TimeUnit.SECONDS.sleep(RegistryConfig.BEAT_TIMEOUT);
                         }

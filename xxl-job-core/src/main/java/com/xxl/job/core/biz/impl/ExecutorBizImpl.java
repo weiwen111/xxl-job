@@ -43,6 +43,7 @@ public class ExecutorBizImpl implements ExecutorBiz {
         return ReturnT.SUCCESS;
     }
 
+    // 核心，根据GlueType获取jobHandler所在的jobThread，然后将job放入对应的handler的队列里面
     @Override
     public ReturnT<String> run(TriggerParam triggerParam) {
         // load old：jobHandler + jobThread

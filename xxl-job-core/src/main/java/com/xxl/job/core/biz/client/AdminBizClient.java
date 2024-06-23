@@ -32,6 +32,7 @@ public class AdminBizClient implements AdminBiz {
     private int timeout = 3;
 
 
+    // admin提供的job运行结果回调接口
     @Override
     public ReturnT<String> callback(List<HandleCallbackParam> callbackParamList) {
         return XxlJobRemotingUtil.postBody(addressUrl+"api/callback", accessToken, timeout, callbackParamList, String.class);

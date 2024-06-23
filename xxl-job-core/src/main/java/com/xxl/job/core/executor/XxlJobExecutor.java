@@ -118,6 +118,7 @@ public class XxlJobExecutor  {
     // ---------------------- admin-client (rpc invoker) ----------------------
     private static List<AdminBiz> adminBizList;
     private void initAdminBizList(String adminAddresses, String accessToken) throws Exception {
+        // 这里可能有问题，每次都是从adminAddresses中从第一个开始，有可能导致第一个admin出现性能问题
         if (adminAddresses!=null && adminAddresses.trim().length()>0) {
             for (String address: adminAddresses.trim().split(",")) {
                 if (address!=null && address.trim().length()>0) {
