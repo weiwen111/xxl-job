@@ -38,6 +38,8 @@ public class JobScheduleHelper {
     public void start(){
 
         // schedule thread
+        // 定时（5秒）从数据库获取最大默认6000个任务进行处理
+        // 获取的job是时间小于未来5秒且状态满足的job
         scheduleThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -218,6 +220,7 @@ public class JobScheduleHelper {
 
 
         // ring thread
+        // 每秒从时间轮中获取当前秒和上一秒的job进行处理
         ringThread = new Thread(new Runnable() {
             @Override
             public void run() {
